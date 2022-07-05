@@ -20,7 +20,7 @@ public class Calculator {
         int no1 = Integer.parseInt(sBits[0]);
         int no2 = Integer.parseInt(sBits[1]);
 
-        return no1 + no2;
+        return no1 * no2;
     }
 
     private static int calcPlus(String s) {
