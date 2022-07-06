@@ -2,29 +2,50 @@ package com.effectivejava3rd.ex1;
 
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Main {
     public static void main(String[] args) {
-        Person p1 = new Person(1234567L);
-        Person p2 = new Person(1234567L);
+        Card c1 = new Card();
+        Card c2 = new Card();
 
-        if (p1.equals(p2)) System.out.println("p1, p2 는 같은 사람");
-        else System.out.println("p1, p2 는 다른 사람");
+        System.out.println("c1.equals(c2) = " + c1.equals(c2));
+        System.out.println(c1.toString());
+        System.out.println(c2.toString());
     }
 
-    static class Person {
-        long id;
+    static class Card {
+        String kind;
+        int number;
+
+        Card() {
+            this("SPADE", 1);
+        }
+
+        Card(String kind, int number) {
+            this.kind = kind;
+            this.number = number;
+        }
+
+        // equals() 오버라이딩하면 hashCode()도 오버라이딩 해야한다.
+        @Override
+        public int hashCode() {
+            return Objects.hash(kind, number);
+        }
 
         @Override
         public boolean equals(Object obj) {
-            if (!(obj instanceof Person)) {
+            if (!(obj instanceof Card)) {
                 return false;
             }
-            return id == ((Person) obj).id;
+            Card c = (Card) obj;
+            return this.kind.equals(c.kind) && this.number == c.number;
         }
 
-        public Person(long id) {
-            this.id = id;
+        // Object 클래스의 toString()을 오버라이딩
+        @Override
+        public String toString() {
+            return "kind: " + kind + ", number: " + number;
         }
     }
 }
