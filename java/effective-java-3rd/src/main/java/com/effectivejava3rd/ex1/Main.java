@@ -1,24 +1,30 @@
 package com.effectivejava3rd.ex1;
 
 
-import java.io.File;
-import java.io.IOException;
+import java.io.Serializable;
 
 public class Main {
     public static void main(String[] args) {
-        try {
-            method1();
-        } catch (Exception e) {
-            System.out.println("main 메서드에서 예외를 처리");
-        }
+        Person p1 = new Person(1234567L);
+        Person p2 = new Person(1234567L);
+
+        if (p1.equals(p2)) System.out.println("p1, p2 는 같은 사람");
+        else System.out.println("p1, p2 는 다른 사람");
     }
 
-    private static void method1() throws Exception {
-        try {
-            throw new Exception();
-        } catch (Exception e) {
-            System.out.println("method1 메서드에서 예외를 처리");
-            throw e;  // 다시 예외 발생.. 예외를 일부 처리
+    static class Person {
+        long id;
+
+        @Override
+        public boolean equals(Object obj) {
+            if (!(obj instanceof Person)) {
+                return false;
+            }
+            return id == ((Person) obj).id;
+        }
+
+        public Person(long id) {
+            this.id = id;
         }
     }
 }
