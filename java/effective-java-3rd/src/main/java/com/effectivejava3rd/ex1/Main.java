@@ -1,28 +1,24 @@
 package com.effectivejava3rd.ex1;
 
 
+import java.io.File;
+import java.io.IOException;
+
 public class Main {
     public static void main(String[] args) {
-
-        System.out.printf("str_part_equals(\"abcd\", 0, 2, \"ab\") : %d\n", str_part_equals("abcd", 0, 2, "ab"));
-        // 출력 => str_equals("abcd", 0, 2, "ab") : 1
-
-        System.out.printf("str_part_equals(\"abcd\", 1, 2, \"b\") : %d\n", str_part_equals("abcd", 1, 2, "b"));
-        // 출력 => str_equals("abcd", 1, 2, "b") : 1
-
-        System.out.printf("str_part_equals(\"abcd\", 2, 2, \"\") : %d\n", str_part_equals("abcd", 2, 2, ""));
-        // 출력 => str_equals("abcd", 2, 2, "") : 1
-
-        System.out.printf("str_part_equals(\"abcd\", 2, 4, \"cb\") : %d\n", str_part_equals("abcd", 2, 4, "cb"));
-        // 출력 => str_equals("abcd", 2, 4, "cb") : 0
-
-        System.out.printf("str_part_equals(\"abcd\", 2, 4, \"cd\") : %d\n", str_part_equals("abcd", 2, 4, "cd"));
-        // 출력 => str_equals("abcd", 2, 4, "cb") : 1
+        try {
+            method1();
+        } catch (Exception e) {
+            System.out.println("main 메서드에서 예외를 처리");
+        }
     }
 
-    private static int str_part_equals(String str, int start, int end, String target) {
-        String substring = str.substring(start, end);
-        return substring.equals(target) ? 1 : 0;
+    private static void method1() throws Exception {
+        try {
+            throw new Exception();
+        } catch (Exception e) {
+            System.out.println("method1 메서드에서 예외를 처리");
+            throw e;  // 다시 예외 발생.. 예외를 일부 처리
+        }
     }
 }
-
