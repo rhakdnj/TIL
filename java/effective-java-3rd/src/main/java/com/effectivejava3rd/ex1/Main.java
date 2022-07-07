@@ -3,9 +3,21 @@ package com.effectivejava3rd.ex1;
 
 public class Main {
     public static void main(String[] args) {
-        StringBuffer sb = new StringBuffer("0123456");
-        sb.delete(3, 100);
-        System.out.println("sb = " + sb);
+        ((동물)new 사람()).init();
+        // 출력 : 사람이 초기화 됩니다.
+    }
+}
+
+class 동물 {
+    void init() {
+        System.out.println("동물 초기화");
+    }
+}
+
+
+class 사람 extends 동물 {
+    void init() {
+        System.out.println("사람이 초기화 됩니다.");
     }
 }
 
