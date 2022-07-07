@@ -1,25 +1,21 @@
 package com.effectivejava3rd.ex1;
 
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
 public class Main {
     public static void main(String[] args) {
-        ((동물)new 사람()).init();
-        // 출력 : 사람이 초기화 됩니다.
+        LocalDate date = LocalDate.now();
+        System.out.println("지정한 날: " + date);
+        System.out.println("Date format: " + date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        System.out.println(LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MMMM yyyy")));
+        LocalTime time = LocalTime.now();
+        System.out.println("현재 시간: " + time);
     }
 }
 
-class 동물 {
-    void init() {
-        System.out.println("동물 초기화");
-    }
-}
-
-
-class 사람 extends 동물 {
-    void init() {
-        System.out.println("사람이 초기화 됩니다.");
-    }
-}
 
 //    String line = "Test 15 lqlq 35 bad 99999 guess 34";
 //
