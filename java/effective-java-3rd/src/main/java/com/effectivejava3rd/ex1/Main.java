@@ -1,30 +1,29 @@
 package com.effectivejava3rd.ex1;
 
 
-
 public
 class Main {
     public static void main(String[] args) {
-        System.out.println(new 사람());
-        // 출력 : 사람이 태어났습니다.
-
-        new 사람(10);
-        // 출력 : 태어나서부터 10살인 사람이 태어났습니다.
-
-        new 사람(20);
-        // 출력 : 태어나서부터 20살인 사람이 태어났습니다.
+        Calculator calc = new Calculator();
+        System.out.println(calc.add(10, 20));
+        System.out.println(calc.add(10, 20, 30));
+        System.out.println(calc.add(10.5, 20, 30));
     }
 
-    static class 사람 {
-        사람() {
-            System.out.println("사람이 태어났습니다.");
+    static class Calculator {
+        public int add(int a, int ... restArgs) {
+            int returnValue = a;
+            for (int restArg : restArgs) {
+                returnValue += restArg;
+            }
+            return returnValue;
         }
-        사람(int age) {
-            System.out.println("태어나서부터 "+ age+ "살인 사람이 태어났습니다.");
+
+        double add(double a, int b, int c) {
+            return a + b + c;
         }
     }
 }
-
 
 
 //    String line = "Test 15 lqlq 35 bad 99999 guess 34";
