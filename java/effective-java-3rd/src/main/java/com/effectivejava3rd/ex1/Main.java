@@ -1,37 +1,31 @@
 package com.effectivejava3rd.ex1;
 
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        사람 a사람 = new 사람();
-        a사람.이름 = "홍길동";
-        동물 a동물 = a사람;
-        a동물.이름 = "홍길순";
+        List<Integer> list = new ArrayList<>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        list.add(4);
+        Iterator<Integer> iterator = list.iterator();
 
-        a사람.test();
-        a동물.test();
+        while (iterator.hasNext()) {
+            System.out.println("iterator.next() = " + iterator.next());
+        }
+
+        // iterator는 1회용이라 다쓰고나면 다시 얻어야됨
+        while (iterator.hasNext()) {
+            System.out.println("iterator.next() = " + iterator.next());
+        }
     }
 }
 
-class 동물 {
-    String 이름;
 
-    void test() {
-        System.out.println("이름 = " + 이름);
-    }
-}
-
-class 사람 extends 동물 {
-    String 이름;
-
-    void test() {
-        System.out.println("이름 = " + 이름);
-    }
-}
 
 //    String line = "Test 15 lqlq 35 bad 99999 guess 34";
 //
