@@ -5,24 +5,31 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        Set<Integer> set = new HashSet<>();
-        set.add(1);
-        set.add(2);
-        set.add(3);
-        set.add(4);
-        Iterator<Integer> iterator = set.iterator();
+        String[] strings = {"cat", "Dog", "lion", "tiger"};
 
-        while (iterator.hasNext()) {
-            System.out.println("iterator.next() = " + iterator.next());
-        }
+        Arrays.sort(strings);
+        System.out.println("strings.toString() = " + Arrays.toString(strings));
 
-        // iterator는 1회용이라 다쓰고나면 다시 얻어야됨
-        while (iterator.hasNext()) {
-            System.out.println("iterator.next() = " + iterator.next());
+        Arrays.sort(strings, String.CASE_INSENSITIVE_ORDER);
+        System.out.println("Arrays.toString(strings) = " + Arrays.toString(strings));
+
+        Arrays.sort(strings, new Descending());
+        System.out.println("Arrays.toString(strings) = " + Arrays.toString(strings));
+    }
+
+    static class Descending implements Comparator {
+        @Override
+        public int compare(Object o1, Object o2) {
+            if (o1 instanceof Comparable && o2 instanceof Comparable) {
+                Comparable c1 = (Comparable) o1;
+                Comparable c2 = (Comparable) o2;
+                return c1.compareTo(c2) * -1;
+            }
+            return -1;
         }
     }
-}
 
+}
 
 
 //    String line = "Test 15 lqlq 35 bad 99999 guess 34";
