@@ -3,23 +3,49 @@ package com.effectivejava3rd.ex1;
 
 import java.util.*;
 
+import static java.util.Collections.*;
+
+
 public class Main {
     public static void main(String[] args) {
-        Map map = new HashMap();
+        List list = new ArrayList();
+        addAll(list, 1, 2, 3, 4, 5);
+        System.out.println("list = " + list);
 
-        map.put("myId", "1234");
-        map.put("myd", "1234");
-        map.put("myI", "1111");
+        rotate(list, 2);
+        System.out.println("list = " + list);
 
-        System.out.println("map = " + map);
+        swap(list, 0, 2);
+        System.out.println("list = " + list);
 
-        for (Object o : map.keySet()) {
-            System.out.println("map.get(o) = " + map.get(o));
-        }
+        shuffle(list);
+        System.out.println("list = " + list);
 
-        for (Object o : map.keySet()) {
-            System.out.println("o = " + o);
-        }
+        sort(list, reverseOrder());
+        System.out.println("list = " + list);
+
+        sort(list);
+        System.out.println("list = " + list);
+
+        int idx = binarySearch(list, 3);
+        System.out.println("index of 3 = " + idx);
+
+        System.out.println("max : " + max(list));
+        System.out.println("min : " + min(list));
+
+        fill(list, 11);
+        System.out.println("list = " + list);
+
+        // list와 같은 크기의 새로운 list를 생성하고 2로 채운다.
+        List<Integer> newList = nCopies(list.size(), 2);
+
+        // 공통요소가 없으면 true
+        System.out.println(disjoint(newList, list));
+
+        copy(list, newList);
+
+        replaceAll(list, 2, 1);
+
     }
 }
 
