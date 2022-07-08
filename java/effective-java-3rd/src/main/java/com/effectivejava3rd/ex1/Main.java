@@ -5,30 +5,21 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        String[] strings = {"cat", "Dog", "lion", "tiger"};
+        Object[] objects = {"1", new Integer(1), "2", "", "3", "4", "4", "4"};
+        Set<Object> set = new HashSet<>();
 
-        Arrays.sort(strings);
-        System.out.println("strings.toString() = " + Arrays.toString(strings));
+        for (Object obj : objects) {
+            set.add(obj);
+        }
 
-        Arrays.sort(strings, String.CASE_INSENSITIVE_ORDER);
-        System.out.println("Arrays.toString(strings) = " + Arrays.toString(strings));
+        System.out.println("set = " + set);
 
-        Arrays.sort(strings, new Descending());
-        System.out.println("Arrays.toString(strings) = " + Arrays.toString(strings));
-    }
+        Iterator<Object> iter = set.iterator();
 
-    static class Descending implements Comparator {
-        @Override
-        public int compare(Object o1, Object o2) {
-            if (o1 instanceof Comparable && o2 instanceof Comparable) {
-                Comparable c1 = (Comparable) o1;
-                Comparable c2 = (Comparable) o2;
-                return c1.compareTo(c2) * -1;
-            }
-            return -1;
+        while (iter.hasNext()) {
+            System.out.println("iter = " + iter.next());
         }
     }
-
 }
 
 
