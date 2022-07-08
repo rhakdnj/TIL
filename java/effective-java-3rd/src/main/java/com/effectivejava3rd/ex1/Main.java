@@ -1,23 +1,51 @@
 package com.effectivejava3rd.ex1;
 
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 public class Main {
     public static void main(String[] args) {
-        Object[] objects = {"1", new Integer(1), "2", "", "3", "4", "4", "4"};
-        Set<Object> set = new HashSet<>();
+        Set set = new HashSet();
 
-        for (Object obj : objects) {
-            set.add(obj);
+        set.add("abc");
+        set.add("abc");
+        set.add(new Person("James", 21));
+        set.add(new Person("James", 21));
+
+        System.out.println(set);
+    }
+
+    // equals() hashCode()를 오버라이딩해야 HashSet 바르게 동작
+    static class Person {
+        String name;
+        int age;
+
+        public Person(String name, int age) {
+            this.name = name;
+            this.age = age;
         }
 
-        System.out.println("set = " + set);
+        @Override
+        public String toString() {
+            return "Person{" +
+                    "name='" + name + '\'' +
+                    ", age=" + age +
+                    '}';
+        }
 
-        Iterator<Object> iter = set.iterator();
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof Person)) return false;
+            Person person = (Person) o;
+            return age == person.age && Objects.equals(name, person.name);
+        }
 
-        while (iter.hasNext()) {
-            System.out.println("iter = " + iter.next());
+        @Override
+        public int hashCode() {
+            return Objects.hash(name, age);
         }
     }
 }
