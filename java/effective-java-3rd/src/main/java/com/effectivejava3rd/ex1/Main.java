@@ -1,21 +1,25 @@
 package com.effectivejava3rd.ex1;
 
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        Set set = new TreeSet();
+        Map map = new HashMap();
 
-        for (int i = 0; set.size() < 6; i++) {
-            int num = (int) (Math.random() * 45) + 1;
-            set.add(num);
+        map.put("myId", "1234");
+        map.put("myd", "1234");
+        map.put("myI", "1111");
+
+        System.out.println("map = " + map);
+
+        for (Object o : map.keySet()) {
+            System.out.println("map.get(o) = " + map.get(o));
         }
 
-        System.out.println(set);
+        for (Object o : map.keySet()) {
+            System.out.println("o = " + o);
+        }
     }
 }
 
