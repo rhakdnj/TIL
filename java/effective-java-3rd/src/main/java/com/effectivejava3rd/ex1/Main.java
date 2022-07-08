@@ -7,15 +7,31 @@ import java.time.format.DateTimeFormatter;
 
 public class Main {
     public static void main(String[] args) {
-        LocalDate date = LocalDate.now();
-        System.out.println("지정한 날: " + date);
-        System.out.println("Date format: " + date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-        System.out.println(LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MMMM yyyy")));
-        LocalTime time = LocalTime.now();
-        System.out.println("현재 시간: " + time);
+        사람 a사람 = new 사람();
+        a사람.이름 = "홍길동";
+        동물 a동물 = a사람;
+        a동물.이름 = "홍길순";
+
+        a사람.test();
+        a동물.test();
     }
 }
 
+class 동물 {
+    String 이름;
+
+    void test() {
+        System.out.println("이름 = " + 이름);
+    }
+}
+
+class 사람 extends 동물 {
+    String 이름;
+
+    void test() {
+        System.out.println("이름 = " + 이름);
+    }
+}
 
 //    String line = "Test 15 lqlq 35 bad 99999 guess 34";
 //
