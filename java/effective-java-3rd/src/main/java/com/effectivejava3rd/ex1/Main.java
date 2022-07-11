@@ -46,6 +46,7 @@ public class Main {
     }
 
     static class Juicer {
+        // Fruit 과 Fruit의 자손 ok
         static Juice makeJuice(FruitBox<? extends Fruit> box) {
             StringBuilder temp = new StringBuilder();
             for (Fruit fruit : box.getList()) {
