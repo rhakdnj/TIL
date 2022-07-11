@@ -6,34 +6,56 @@ import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) {
         FruitBox<Fruit> fruitBox = new FruitBox<>();
-        FruitBox<Apple> aBox = new FruitBox<>();
-        // extends 가 아니여서 안됨
-//        FruitBox<Toy> toyBox = FruitBox < Toy > ();
+        FruitBox<Apple> appleBox = new FruitBox<>();
 
-        fruitBox.add(new Fruit());
         fruitBox.add(new Apple());
-        fruitBox.add(new Banana());
+        fruitBox.add(new Grape());
 
-        // fruit 과  그 자손들
-        FruitBox<? extends Fruit> fruitBox2 = new FruitBox<>();
+        appleBox.add(new Apple());
+        appleBox.add(new Apple());
+
+        System.out.println(Juicer.makeJuice(fruitBox));
+        System.out.println(Juicer.makeJuice(appleBox));
     }
 
-    static class Fruit implements Eatable {
+    static class Fruit {
+        @Override
+        public String toString() {
+            return "Fruit";
+        }
     }
 
     static class Apple extends Fruit {
+        @Override
+        public String toString() {
+            return "Apple";
+        }
     }
 
-    static class Banana extends Fruit {
+    static class Grape extends Fruit {
+        @Override
+        public String toString() {
+            return "Grape";
+        }
     }
 
-    static class Toy {
+    static class Juice {
+        String name;
+        Juice(String name) { this.name = name + "Juice";}
+        public String toString() { return name;}
     }
 
-    interface Eatable {
+    static class Juicer {
+        static Juice makeJuice(FruitBox<? extends Fruit> box) {
+            StringBuilder temp = new StringBuilder();
+            for (Fruit fruit : box.getList()) {
+                temp.append(fruit).append(" ");
+            }
+            return new Juice(temp.toString());
+        }
     }
 
-    static class FruitBox<E extends Fruit & Eatable> extends Box<E> {
+    static class FruitBox<E extends Fruit> extends Box<E> {
     }
 
     static class Box<E> {
@@ -46,6 +68,8 @@ public class Main {
         E get(int i) {
             return list.get(i);
         }
+
+        ArrayList<E> getList() { return list;}
 
         int size() {
             return list.size();
