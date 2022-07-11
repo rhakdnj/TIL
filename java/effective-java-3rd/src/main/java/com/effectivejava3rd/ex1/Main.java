@@ -1,84 +1,61 @@
 package com.effectivejava3rd.ex1;
 
 
-import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
-        FruitBox<Fruit> fruitBox = new FruitBox<>();
-        FruitBox<Apple> appleBox = new FruitBox<>();
-
-        fruitBox.add(new Apple());
-        fruitBox.add(new Grape());
-
-        appleBox.add(new Apple());
-        appleBox.add(new Apple());
-
-        System.out.println(Juicer.makeJuice(fruitBox));
-        System.out.println(Juicer.makeJuice(appleBox));
-    }
-
-    static class Fruit {
-        @Override
-        public String toString() {
-            return "Fruit";
+        for (Direction dir : Direction.values()) {
+            System.out.printf("%s = %d%n", dir.name(), dir.getValue());
         }
+        Direction d1 = Direction.EAST;
+        Direction d2 = Direction.of(1);
+
+        System.out.printf("d1 = %s, %d%n", d1.name(), d1.getValue());
+        System.out.printf("d2 = %s, %d%n", d2.name(), d2.getValue());
+
+        System.out.println(Direction.EAST.rotate(1));
+        System.out.println(Direction.EAST.rotate(2));
+        System.out.println(Direction.EAST.rotate(-1));
+        System.out.println(Direction.EAST.rotate(-2));
     }
 
-    static class Apple extends Fruit {
-        @Override
-        public String toString() {
-            return "Apple";
+    enum Direction {
+        EAST(1, ">"), SOUTH(2, "V"), WEST(3, "<"), NORTH(10, "^");
+
+        private static final Direction[] DIR_ARR = Direction.values();
+        private final int value;
+        private final String symbol;
+        Direction(int value, String symbol) {  // 접근 제어자 private 이 생략됨
+            this.value = value;
+            this.symbol = symbol;
         }
-    }
 
-    static class Grape extends Fruit {
-        @Override
-        public String toString() {
-            return "Grape";
+        public int getValue() {
+            return value;
         }
-    }
 
-    static class Juice {
-        String name;
-        Juice(String name) { this.name = name + "Juice";}
-        public String toString() { return name;}
-    }
+        public String getSymbol() {
+            return symbol;
+        }
 
-    static class Juicer {
-        // Fruit 과 Fruit의 자손 ok
-        static Juice makeJuice(FruitBox<? extends Fruit> box) {
-            StringBuilder temp = new StringBuilder();
-            for (Fruit fruit : box.getList()) {
-                temp.append(fruit).append(" ");
+        public static Direction of(int dir) {
+            if (dir < 1 || dir > 4) {
+                throw new IllegalArgumentException("Invalid value : " + dir);
             }
-            return new Juice(temp.toString());
-        }
-    }
-
-    static class FruitBox<E extends Fruit> extends Box<E> {
-    }
-
-    static class Box<E> {
-        ArrayList<E> list = new ArrayList<>();
-
-        void add(E item) {
-            list.add(item);
+            return DIR_ARR[dir - 1];
         }
 
-        E get(int i) {
-            return list.get(i);
+        public Direction rotate(int num) {
+            num = num % 4;
+
+            if (num < 0) num += 4;
+
+            return DIR_ARR[(value - 1 + num)  % 4];
         }
 
-        ArrayList<E> getList() { return list;}
-
-        int size() {
-            return list.size();
-        }
-
+        @Override
         public String toString() {
-            return list.toString();
+            return name() + ", " +  getSymbol();
         }
     }
-
 }
