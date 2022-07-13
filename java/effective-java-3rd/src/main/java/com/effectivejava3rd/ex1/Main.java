@@ -1,36 +1,54 @@
 package com.effectivejava3rd.ex1;
 
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
+
 public class Main {
     public static void main(String[] args) {
-        MyFunction f1 = () -> System.out.println("f1.run()");
 
-        MyFunction f2 = new MyFunction() {  // 익명 클래스로 run()을 구현
-            @Override
-            public void run() {
-                System.out.println("f2.run()");
+        Supplier<Integer> s = () -> (int) (Math.random() * 100) + 1;  // 1 ~ 100 난수
+        Consumer<Integer> c = i -> System.out.print(i + ", ");
+        Predicate<Integer> p = i -> i % 2 == 0;  // 짝수인지 검사
+        Function<Integer, Integer> f = i -> i / 10 * 10; // i의 일의 자리 없앤다.
+
+        List<Integer> list = new ArrayList<>();
+        makeRandomList(s, list);
+        System.out.println("list = " + list);
+        printEvenNum(p, c, list);
+        List<Integer> newList = doSomething(f, list);
+        System.out.println(newList);
+    }
+
+    static <T> void makeRandomList(Supplier<T> s, List<T> list) {
+        for (int i = 0; i < 10; i++) {
+            list.add(s.get());
+        }
+    }
+
+    static <T> void printEvenNum(Predicate<T> p, Consumer<T> c, List<T> list) {
+        System.out.print("[");
+        for (T i : list) {
+            if (p.test(i)) {
+                c.accept(i);
             }
-        };
-
-        MyFunction f3 = getMyFunction();
-
-        f1.run();
-        f2.run();
-        f3.run();
-
-        execute(() -> System.out.println("f1.run"));
+        }
+        System.out.println("]");
     }
 
-    @FunctionalInterface
-    interface MyFunction {
-        void run();  // public abstract void run();
+    static <T> List<T> doSomething(Function<T, T> f, List<T> list) {
+        List<T> newList = new ArrayList<>(list.size());
+
+        for (T i : list) {
+            newList.add(f.apply(i));
+        }
+
+        return newList;
     }
 
-    static void execute(MyFunction function) {
-        function.run();
-    }
 
-    static MyFunction getMyFunction() {
-        return () -> System.out.println("f3.run()");
-    }
 }
