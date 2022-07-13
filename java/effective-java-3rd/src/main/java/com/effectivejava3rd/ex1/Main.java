@@ -1,30 +1,24 @@
 package com.effectivejava3rd.ex1;
 
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
-        // lambda
-        MyFunction f = new MyFunction() {
-            public int max(int a, int b) {  // 오버라이딩 접근 제어자는 좁게 못바꾼다.
-                return a > b ? a : b;
+        List<String> list = Arrays.asList("abc", "aaa", "bb", "dd", "aaa");
+
+        Collections.sort(list, new Comparator<String>() {
+            @Override
+            public int compare(String s1, String s2) {
+                return s2.compareTo(s1);
             }
-        };
+        });
 
+        Collections.sort(list, (s1, s2) -> s2.compareTo(s1));
 
-        int value = f.max(3, 5);
-        System.out.println("value = " + value);
-
-        // 람다식(익명 객체)를 다루기 위한 참조변수의 타입은 함수형 인터페이스로 한다.
-        MyFunction f2 = (a, b) -> a > b ? a : b;  // 람다식, 익명 객체
-        int value2 = f2.max(7, 11);
-        System.out.println("value2 = " + value2);
-
+        System.out.println("list : " + list);
     }
-
-    @FunctionalInterface // annotation 을 통해 함수형 인터페이스는 추상 메서드 1개를 컴파일 시점에 확인
-    interface MyFunction {
-        int max(int a, int b);
-//        int max2(int a);
-    }
-
 }
