@@ -1,24 +1,36 @@
 package com.effectivejava3rd.ex1;
 
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 public class Main {
     public static void main(String[] args) {
-        List<String> list = Arrays.asList("abc", "aaa", "bb", "dd", "aaa");
+        MyFunction f1 = () -> System.out.println("f1.run()");
 
-        Collections.sort(list, new Comparator<String>() {
+        MyFunction f2 = new MyFunction() {  // 익명 클래스로 run()을 구현
             @Override
-            public int compare(String s1, String s2) {
-                return s2.compareTo(s1);
+            public void run() {
+                System.out.println("f2.run()");
             }
-        });
+        };
 
-        Collections.sort(list, (s1, s2) -> s2.compareTo(s1));
+        MyFunction f3 = getMyFunction();
 
-        System.out.println("list : " + list);
+        f1.run();
+        f2.run();
+        f3.run();
+
+        execute(() -> System.out.println("f1.run"));
+    }
+
+    @FunctionalInterface
+    interface MyFunction {
+        void run();  // public abstract void run();
+    }
+
+    static void execute(MyFunction function) {
+        function.run();
+    }
+
+    static MyFunction getMyFunction() {
+        return () -> System.out.println("f3.run()");
     }
 }
