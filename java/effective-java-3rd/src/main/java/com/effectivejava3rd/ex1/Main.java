@@ -1,51 +1,48 @@
 package com.effectivejava3rd.ex1;
 
 
-import java.util.Comparator;
+import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) {
-        Stream<Student> studentStream = Stream.of(
-                new Student("이자바", 3, 300),
-                new Student("김자바", 1, 200),
-                new Student("안자바", 2, 100),
-                new Student("박자바", 1, 140),
-                new Student("소자바", 2, 190),
-                new Student("정자바", 1, 280),
-                new Student("김자바", 3, 110)
-        );
+        Stream<String[]> strArrStream = Stream.of(new String[]{"abc", "def", "ghi"},
+                new String[]{"ABC", "GHI", "JKL"});
 
-        studentStream.sorted(Comparator.comparing(Student::getBan)  // 반별 정렬
-                .thenComparing(Comparator.naturalOrder()))
+        Stream<String> strStream = strArrStream.flatMap(Arrays::stream);
+
+        strStream.map(String::toLowerCase)
+                .distinct()
+                .sorted()
                 .forEach(System.out::println);
+        System.out.println();
 
-    }
+        String[] lineArr = {
+                "Believe or not It is true",
+                "Do or do not There is no try",
+        };
 
-    static class Student implements Comparable<Student> {
-        String name;
-        int ban;
-        int totalScore;
+        Stream<String> lineStream = Arrays.stream(lineArr);
 
-        public Student(String name, int ban, int totalScore) {
-            this.name = name;
-            this.ban = ban;
-            this.totalScore = totalScore;
+        List<String> strings = lineStream
+                .flatMap(line -> Stream.of(line.split(" +"))) // 하나 이상의 공백 정규식
+                .map(String::toLowerCase)
+                .distinct()
+                .sorted()
+                .toList();
+
+        for (String string : strings) {
+            System.out.println(string);
         }
 
-        @Override
-        public String toString() {
-            return """
-                    [%s, %d, %d]""".formatted(name, ban, totalScore);
-        }
-
-        @Override  // 내림차순으로 정렬
-        public int compareTo(Student s) {
-            return s.totalScore - this.totalScore;
-        }
-
-        public int getBan() {
-            return ban;
-        }
+//        Stream<String[]> stream = lineStream.map(line -> line.split(" +"));
+//
+//        stream.forEach(s -> {3
+//            for (String s1 : s) {
+//                System.out.println("s1 = " + s1);
+//            }
+//        });
     }
 }
