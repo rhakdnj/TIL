@@ -12,4 +12,23 @@ public class ArrayList {
     public int size() {
         return size;
     }
+
+    public void add(int data) {
+        sizeUpWhenFull();
+
+        datum[size] = data;
+        size++;
+    }
+
+    public int get(int index) {
+        return datum[index];
+    }
+
+    private void sizeUpWhenFull() {
+        if (size == datum.length) {
+            int[] newDatum = new int[datum.length * 2];
+            System.arraycopy(datum, 0, newDatum, 0, datum.length);
+            datum = newDatum;
+        }
+    }
 }
