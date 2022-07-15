@@ -54,4 +54,43 @@ class ArrayListTest {
 
         assertThat(rs).isEqualTo(200);
     }
+
+    @Test
+    void removeAt() {
+        ArrayList al = new ArrayList();
+        al.add(100);
+        al.add(200);
+        al.add(300);
+        al.removeAt(1);
+
+        assertThat(al.get(1)).isEqualTo(300);
+    }
+
+    @Test
+    void removeAt을_실행하면_size가_1_줄어든다() {
+        ArrayList al = new ArrayList();
+        al.add(100);
+        al.add(200);
+        al.add(300);
+
+        assertThat(al.size()).isEqualTo(3);
+
+        al.removeAt(1);
+
+        assertThat(al.size()).isEqualTo(2);
+    }
+
+    @Test
+    void removeAt을_실행하면_뒷좌석에_있는_데이터들이_전부_한칸씩_앞으로_이동() {
+        ArrayList al = new ArrayList();
+        al.add(100);
+        al.add(200);
+        al.add(300);
+
+        assertThat(al.get(1)).isEqualTo(200);
+
+        al.removeAt(1);
+
+        assertThat(al.get(1)).isEqualTo(300);
+    }
 }

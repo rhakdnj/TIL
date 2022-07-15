@@ -24,6 +24,14 @@ public class ArrayList {
         return datum[index];
     }
 
+    public void removeAt(int index) {
+
+        for (int i = index + 1; i < size; i++) {
+            datum[i - 1] = datum[i];
+        }
+        size --;
+    }
+
     private void sizeUpWhenFull() {
         if (size == datum.length) {
             int[] newDatum = new int[datum.length * 2];
