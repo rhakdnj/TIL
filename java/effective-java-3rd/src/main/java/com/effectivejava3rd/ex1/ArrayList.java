@@ -8,4 +8,8 @@ public class ArrayList {
         size = 0;
         datum = new int[2];
     }
+
+    public int size() {
+        return size;
+    }
 }
