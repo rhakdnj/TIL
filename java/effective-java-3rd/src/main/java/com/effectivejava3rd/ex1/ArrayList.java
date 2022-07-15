@@ -21,6 +21,16 @@ public class ArrayList {
         size++;
     }
 
+    public void add(int data, int index) {
+        sizeUpWhenFull();
+
+        for (int i = getArrayLength() - 1; i > index; i--) {
+            datum[i] = datum[i - 1];
+        }
+        datum[index] = data;
+        size++;
+    }
+
     public int get(int index) {
         return datum[index];
     }
@@ -30,7 +40,7 @@ public class ArrayList {
         for (int i = index + 1; i < size; i++) {
             datum[i - 1] = datum[i];
         }
-        size --;
+        size--;
     }
 
     private void sizeUpWhenFull() {
