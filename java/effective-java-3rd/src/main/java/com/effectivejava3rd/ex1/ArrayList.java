@@ -1,5 +1,6 @@
 package com.effectivejava3rd.ex1;
 
+
 public class ArrayList {
     private int size;
     private int[] datum;
@@ -37,6 +38,18 @@ public class ArrayList {
             int[] newDatum = new int[datum.length * 2];
             System.arraycopy(datum, 0, newDatum, 0, datum.length);
             datum = newDatum;
+        }
+    }
+
+    public int getArrayLength() {
+        return datum.length;
+    }
+
+    public void showAllValues() {
+        System.out.println("== 전체 데이터 출력 ==");
+
+        for (int i = 0; i < size; i++) {
+            System.out.printf("%d : %d%n", i, datum[i]);
         }
     }
 }

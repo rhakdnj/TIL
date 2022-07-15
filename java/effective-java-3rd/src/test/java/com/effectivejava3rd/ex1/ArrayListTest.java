@@ -2,6 +2,8 @@ package com.effectivejava3rd.ex1;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayOutputStream;
+
 import static org.assertj.core.api.Assertions.*;
 
 
@@ -92,5 +94,44 @@ class ArrayListTest {
         al.removeAt(1);
 
         assertThat(al.get(1)).isEqualTo(300);
+    }
+
+    @Test
+    void 최초에_배열의_크기는_2_이다() {
+        ArrayList al = new ArrayList();
+
+        assertThat(al.getArrayLength()).isEqualTo(2);
+    }
+
+    @Test
+    void 배열이_꽉_차면_2배_크기로_증가해야_한다() {
+        ArrayList al = new ArrayList();
+        al.add(100);
+        al.add(200);
+        assertThat(al.getArrayLength()).isEqualTo(2);
+
+        al.add(300);
+        assertThat(al.getArrayLength()).isEqualTo(4);
+    }
+
+    @Test
+    void showAllValues() {
+        ArrayList al = new ArrayList();
+        al.add(1000);
+        al.add(200);
+        al.add(30);
+
+        ByteArrayOutputStream output = TestUtil.setOutToByteArray();
+
+        al.showAllValues();
+
+        String rs = output.toString();
+
+        TestUtil.clearSetOutToByteArray(output);
+
+        assertThat(rs).contains("== 전체 데이터 출력 ==");
+        assertThat(rs).contains("0 : 1000");
+        assertThat(rs).contains("1 : 200");
+        assertThat(rs).contains("2 : 30");
     }
 }
