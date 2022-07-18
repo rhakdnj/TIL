@@ -1,30 +1,20 @@
 package com.effectivejava3rd.ex1;
 
-import java.util.Optional;
+
+import java.util.stream.IntStream;
 
 public class Main {
     public static void main(String[] args) {
-        Optional<String> optStr = Optional.of("ABCDE");
-        Optional<Integer> optInt = optStr.map(String::length);
-        System.out.println("optStr.get() = " + optStr.get());
-        System.out.println("optInt.get() = " + optInt.get());
 
-        Integer result1 = Optional.of("123")
-                .filter(x -> x.length() > 0)
-                .map(Integer::parseInt)
-                .get();
+        // 기본적으로 stream은 직렬 stream
+        IntStream.range(1, 10).sequential().forEach(System.out::print);
+        System.out.println();
+        IntStream.range(1, 10).sequential().forEachOrdered(System.out::print);
+        System.out.println();
 
-        Integer result2 = Optional.of("")
-                .filter(x -> x.length() > 0)
-                .map(Integer::parseInt).orElse(-1);
-
-        System.out.println("result1 = " + result1);
-        System.out.println("result2 = " + result2);
-
-        Optional.of("456")
-                .map(Integer::parseInt)
-                .ifPresent(x -> System.out.println("x = " + x));
-
-
+        IntStream.range(1, 10).parallel().forEach(System.out::print);
+        System.out.println();
+        IntStream.range(1, 10).parallel().forEachOrdered(System.out::print);
+        System.out.println();
     }
 }
