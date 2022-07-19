@@ -1,13 +1,11 @@
 package com.effectivejava3rd.ex1;
 
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static java.util.Comparator.comparingInt;
+import static java.util.stream.Collectors.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -32,52 +30,98 @@ public class Main {
                 new Student("이자바", true, 2, 3, 200)
         };
 
-        // 단순분할(성별로 분할)
-        Map<Boolean, List<Student>> stuBySex =  Stream.of(stuArr)
-                .collect(Collectors.partitioningBy(Student::isMale));
+        // 단순그룹화(반별로 그룹화)
+        Map<Integer, List<Student>> stuByBan = Stream.of(stuArr)
+                .collect(groupingBy(Student::getBan));
 
-//        { true: List<Student> 남자, false: List<Student> 여자}
-        List<Student> maleStudent   = stuBySex.get(true);
-        List<Student> femaleStudent = stuBySex.get(false);
+        for (List<Student> ban : stuByBan.values()) {
+            for (Student s : ban) {
+                System.out.println(s);
+            }
+        }
 
+        // 단순그룹화(성적별로 그룹화)
+        Map<Student.LEVEL, List<Student>> stuByLevel = Stream.of(stuArr)
+                .collect(groupingBy(s -> {
+                    if (s.getScore() >= 200) return Student.LEVEL.HIGH;
+                    else if (s.getScore() >= 100) return Student.LEVEL.MID;
+                    else return Student.LEVEL.LOW;
+                }));
 
-        // 단순분할 + 통계(성별 학생수)
-        Map<Boolean, Long> stuNumBySex = Stream.of(stuArr)
-                .collect(Collectors.partitioningBy(Student::isMale, Collectors.counting()));
+        TreeSet<Student.LEVEL> keySet = new TreeSet<>(stuByLevel.keySet());
 
-        System.out.println("남학생 수 :"+ stuNumBySex.get(true));
-        System.out.println("여학생 수 :"+ stuNumBySex.get(false));
+        for (Student.LEVEL key : keySet) {
+            System.out.println("[" + key + "]");
 
-        // 단순분할 + 통계(성별 1등)
-        Map<Boolean, Optional<Student>> topScoreBySex = Stream.of(stuArr)
-                .collect(Collectors.partitioningBy(Student::isMale,
-                        Collectors.maxBy(comparingInt(Student::getScore))
-                ));
+            for (Student s : stuByLevel.get(key))
+                System.out.println(s);
+            System.out.println();
+        }
 
-        System.out.println("남학생 1등 :"+ topScoreBySex.get(true));
-        System.out.println("여학생 1등 :"+ topScoreBySex.get(false));
+        System.out.printf("%n3. 단순그룹화 + 통계(성적별 학생수)%n");
+        Map<Student.LEVEL, Long> stuCntByLevel = Stream.of(stuArr)
+                .collect(groupingBy(s -> {
+                    if (s.getScore() >= 200) return Student.LEVEL.HIGH;
+                    else if (s.getScore() >= 100) return Student.LEVEL.MID;
+                    else return Student.LEVEL.LOW;
+                }, counting()));
 
-        Map<Boolean, Student> topScoreBySex2 = Stream.of(stuArr)
-                .collect(Collectors.partitioningBy(Student::isMale,
-                        Collectors.collectingAndThen(
-                                Collectors.maxBy(comparingInt(Student::getScore)), Optional::get
+        for (Student.LEVEL key : stuCntByLevel.keySet())
+            System.out.printf("[%s] - %d명, ", key, stuCntByLevel.get(key));
+        System.out.println();
+/*
+		for(List<Student> level : stuByLevel.values()) {
+			System.out.println();
+			for(Student s : level) {
+				System.out.println(s);
+			}
+		}
+*/
+        System.out.printf("%n4. 다중그룹화(학년별, 반별)%n");
+        Map<Integer, Map<Integer, List<Student>>> stuByHakAndBan =
+                Stream.of(stuArr)
+                        .collect(groupingBy(Student::getHak,
+                                groupingBy(Student::getBan)
+                        ));
+
+        for (Map<Integer, List<Student>> hak : stuByHakAndBan.values()) {
+            for (List<Student> ban : hak.values()) {
+                System.out.println();
+                for (Student s : ban)
+                    System.out.println(s);
+            }
+        }
+
+        System.out.printf("%n5. 다중그룹화 + 통계(학년별, 반별 1등)%n");
+        Map<Integer, Map<Integer, Student>> topStuByHakAndBan = Stream.of(stuArr)
+                .collect(groupingBy(Student::getHak,
+                        groupingBy(Student::getBan,
+                                collectingAndThen(
+                                        maxBy(comparingInt(Student::getScore)),
+                                        Optional::get
+                                )
                         )
                 ));
 
-        System.out.println("남학생 1등 :"+ topScoreBySex2.get(true));
-        System.out.println("여학생 1등 :"+ topScoreBySex2.get(false));
+        for (Map<Integer, Student> ban : topStuByHakAndBan.values())
+            for (Student s : ban.values())
+                System.out.println(s);
 
+        System.out.printf("%n6. 다중그룹화 + 통계(학년별, 반별 성적그룹)%n");
+        Map<String, Set<Student.LEVEL>> stuByScoreGroup = Stream.of(stuArr)
+                .collect(groupingBy(s -> s.getHak() + "-" + s.getBan(),
+                        mapping(s -> {
+                            if (s.getScore() >= 200) return Student.LEVEL.HIGH;
+                            else if (s.getScore() >= 100) return Student.LEVEL.MID;
+                            else return Student.LEVEL.LOW;
+                        }, toSet())
+                ));
 
-        // 다중분할(성별 불합격자, 100점 이하)
-        Map<Boolean, Map<Boolean, List<Student>>> failedStuBySex =
-                Stream.of(stuArr).collect(Collectors.partitioningBy(Student::isMale,
-                        Collectors.partitioningBy(s -> s.getScore() <= 100))
-                );
-        List<Student> failedMaleStu   = failedStuBySex.get(true).get(true);
-        List<Student> failedFemaleStu = failedStuBySex.get(false).get(true);
+        Set<String> keySet2 = stuByScoreGroup.keySet();
 
-        for(Student s : failedMaleStu)   System.out.println(s);
-        for(Student s : failedFemaleStu) System.out.println(s);
+        for (String key : keySet2) {
+            System.out.println("[" + key + "]" + stuByScoreGroup.get(key));
+        }
     }
 
     static class Student {
@@ -95,8 +139,20 @@ public class Main {
             this.score = score;
         }
 
-        boolean isMale() {
+        public String getName() {
+            return name;
+        }
+
+        public boolean isMale() {
             return isMale;
+        }
+
+        public int getHak() {
+            return hak;
+        }
+
+        public int getBan() {
+            return ban;
         }
 
         public int getScore() {
@@ -111,6 +167,6 @@ public class Main {
         }
 
         // groupingBy() 에서 사용
-        enum LEVEl {HIGH, MID, LOW}  // 성적을 상, 중, 하 단계를 분류
+        enum LEVEL {HIGH, MID, LOW}  // 성적을 상, 중, 하 단계를 분류
     }
 }
