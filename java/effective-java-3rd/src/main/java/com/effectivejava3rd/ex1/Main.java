@@ -3,30 +3,26 @@ package com.effectivejava3rd.ex1;
 
 public class Main {
     public static void main(String[] args) {
-        Main aMain = new Main();
-
-        실행자 a실행자 = new 실행자();
-        a실행자.set리모콘(aMain);
-        a실행자.리모콘_작동();
+        Button button = new Button();
+        // button.?? // 이 1줄을 완성해주세요.(메인 클래스는 여기만 수정 가능)
+        button.setListener(new 사람());
+        button.click();
     }
 
-    public void 안녕() {
-        System.out.println("Main::안녕!");
-    }
-
-    static class 실행자 {
-        private Object a리모콘;
-
-        public void set리모콘(Object a리모콘) {
-            this.a리모콘 = a리모콘;
+    static class 사람 {
+        public void 안녕() {
+            System.out.println("Main::안녕!");
         }
+    }
+    static class Button {
+        private Object listener;
 
-        public void 리모콘_작동() {
-            // 너무 구체적 Main 만 가능하다.
-            if (a리모콘 instanceof Main) {
-                ((Main) a리모콘).안녕();
-            }
-            // 수정가능지역 끝
+        public void setListener(Object listener) {
+            this.listener = listener;
+        }
+        public void click() {
+            ((사람) listener).안녕();
         }
     }
 }
+
