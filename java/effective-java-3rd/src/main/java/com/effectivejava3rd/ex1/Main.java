@@ -6,28 +6,53 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        계산기 a계산기 = new 계산기();
-        a계산기.num1 = 10;
-        a계산기.num2 = 20;
+        View aButton = new Button();
 
-        int 결과1 = a계산기.수행((num1, num2) -> num1 + num2);
-        System.out.println(결과1); // 30
+        aButton.addOnClickListener(new 홍길동());
+        aButton.fireClickEvent();
 
-        int 결과2 = a계산기.수행((num1, num2) -> num1 - num2);
-        System.out.println(결과2); // -10
-
-        int 결과3 = a계산기.수행((num1, num2) -> num1 * num2);
-        System.out.println(결과3); // 300
+        aButton.addOnClickListener(new 홍길순());
+        aButton.fireClickEvent();
     }
-    static class 계산기 {
-        int num1;
-        int num2;
 
-        int 수행(식 a식) {
-            return a식.실행(num1, num2);
+    static class View {
+        private final List<OnClickListener> OnClickListenerList = new ArrayList<>();
+
+        public void addOnClickListener(OnClickListener a구독자) {
+            OnClickListenerList.add(a구독자);
+        }
+
+        public void fireClickEvent() {
+            System.out.println("뷰가 클릭되었습니다.");
+
+            for (OnClickListener a구독자 : OnClickListenerList) {
+                a구독자.소식받기("뷰가 클릭됨");
+            }
         }
     }
-    interface 식 {
-        public int 실행(int num1, int num2);
+
+    static class Button extends View {
+
     }
+
+    interface OnClickListener {
+        public void 소식받기(String msg);
+    }
+
+    static class 홍길동 implements OnClickListener {
+        @Override
+        public void 소식받기(String msg) {
+            System.out.println("홍길동이 받은 메세지 : " + msg);
+        }
+    }
+
+    static class 홍길순 implements OnClickListener {
+        @Override
+        public void 소식받기(String msg) {
+            System.out.println("홍길순이 받은 메세지 : " + msg);
+        }
+    }
+
 }
+
+
