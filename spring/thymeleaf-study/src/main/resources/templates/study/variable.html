@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>TEXT</title>
+</head>
+<body>
+    <h1>SpringEL 표현식</h1>
+    <ul>Object
+        <li>${user.username} = <span th:text="${user.name}"></span></li>
+        <li>${user.getUsername()} = <span th:text="${user.getName()}"></span></li>
+    </ul>
+    <ul>List
+        <li>${users[0].username}    = <span th:text="${users[0].name}"></span></li>
+        <li>${users[0].getUsername()} = <span th:text="${users[0].getName()}"></span></li>
+    </ul>
+    <ul>Map
+        <li>${userMap['userA'].username} =  <span th:text="${userMap['userA'].name}"></span></li>
+        <li>${userMap['userA'].getUsername()} = <span th:text="${userMap['userA'].getName()}"></span></li>
+    </ul>
+
+<!--    th:with 를 사용하면 지역 변수를 선언해서 사용할 수 있다. 지역 변수는 선언한 테그 안에서만 사용    -->
+    <h1>지역 변수 - (th:with)</h1>
+    <div th:with="firstUser=${users[0]}">
+        <p>처음 사람의 이름은 <span th:text="${firstUser.name}"></span></p>
+    </div>
+</body>
+</html>

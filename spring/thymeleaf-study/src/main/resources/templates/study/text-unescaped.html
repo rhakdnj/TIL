@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>TEXT</title>
+</head>
+<body>
+<!--    escaped 하지말고 그냥 출력한다.-->
+<!--    escape를 사용하지 않아서 HTML이 정상 렌더링 되지 않는 수 많은 문제가 발생한다. escape를 기본으로 하고, 꼭 필요한 때만 unescape를 사용-->
+<!--    게시판 처럼 글쓰는 사람이 태그의 의미를 두지않고 사용하는 공간만 풀어줘야한다.-->
+    <h1>text vs utext</h1>
+    <ul>
+        <li>th:text = <span th:text="${data}"></span></li>
+        <li>th:utext = <span th:utext="${data}"></span></li>
+    </ul>
+    <h1><span th:inline="none">[[...]] vs [(...)]</span></h1>
+    <ul>
+        <li><span th:inline="none">[[...]] = </span>[[${data}]]</li>
+        <li><span th:inline="none">[(...)] = </span>[(${data})]</li>
+    </ul>
+</body>
+</html>
