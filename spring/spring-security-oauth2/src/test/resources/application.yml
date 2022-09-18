@@ -1,0 +1,35 @@
+spring:
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+
+  session:
+    store-type: jdbc
+
+  h2:
+    console:
+      enabled: true
+
+debug: false
+
+logging:
+  level:
+    com.example.springsecurityoauth2: debug
+    org.springframework.web.servlet: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
+
+# Test OAuth
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: test
+            client-secret: test
+            scope:
+              - profile
+              - email
